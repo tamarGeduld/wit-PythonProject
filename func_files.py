@@ -59,20 +59,53 @@ def delete_contents_in_folder(path):
         os.remove(rf"{path}\{item}")
 
 #העתקת קבצים תוך כדי דיריסת קבצים קיימים
-def copy_files_with_overwriting(src,dist):
+
+def copy_files_with_overwriting(src, dst):
     for item in os.listdir(src):
-        if os.path.exists(item):
-            shutil.copy(rf"{src}\{item}",dist)
+        src_path = os.path.join(src, item)
+        dst_path = os.path.join(dst, item)
+
+        if os.path.isdir(src_path):
+            # אופציה א': לדלג על תיקיות
+            continue
+
+            # או אופציה ב': להעתיק תיקיות שלמות
+            # shutil.copytree(src_path, dst_path, dirs_exist_ok=True)
+
+        else:
+            shutil.copy(src_path, dst_path)
 
 #מחיקת תוכן תיקיה מלבד תיקיה .WIT
+#def delete_contents_except_wit(path):
+    #if os.path.exists(path):
+        #for item in os.listdir(path):
+            #item_path = os.path.join(path, item)
+            #if item != ".wit":
+                   # if os.path.isdir(item_path):
+                       # shutil.rmtree(item_path)
+                    #else:
+                      #  os.remove(item_path)
+    #else:
+       # print(f"Error: The directory does not exist.")
+def delete_contents_in_folder(path):
+    for item in os.listdir(path):
+        item_path = os.path.join(path, item)
+        if os.path.isdir(item_path):
+            # אם זו תיקיה, מוחקים אותה כולה
+            shutil.rmtree(item_path)
+        else:
+            # אם זה קובץ, מוחקים אותו
+            os.remove(item_path)
+
+
 def delete_contents_except_wit(path):
     if os.path.exists(path):
         for item in os.listdir(path):
             item_path = os.path.join(path, item)
             if item != ".wit":
-                    if os.path.isdir(item_path):
-                        shutil.rmtree(item_path)
-                    else:
-                        os.remove(item_path)
+                if os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
+                else:
+                    os.remove(item_path)
     else:
         print(f"Error: The directory does not exist.")
