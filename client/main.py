@@ -41,8 +41,10 @@ def checkout(id):
     global repository
     repository.wit_checkout(id)
 
+
 @click.command()
 def push():
+    global repository
     repository.wit_push()
 
 cli.add_command(init)
@@ -51,7 +53,9 @@ cli.add_command(commit)
 cli.add_command(log)
 cli.add_command(status)
 cli.add_command(checkout)
+
 cli.add_command(push)
+
 
 if __name__ == '__main__':
     cli()
